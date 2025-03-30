@@ -1,0 +1,5 @@
+# Ignorar pastas geradas pelo Maven/Gradle
+target/
+
+# Ignorar arquivos e configurações do IntelliJ IDEA
+.idea/
