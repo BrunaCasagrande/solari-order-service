@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
+import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
@@ -33,9 +34,9 @@ public class OrderGatewayImpl implements OrderGateway {
 
     }
 
-    public Order getOrder(String id) {
+    public Optional<Order> getOrder(String id) {
         OrderEntity orderEntity = orderRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Order not found"));
-        return OrderMapper.toDomain(orderEntity);
+        return Optional.of(OrderMapper.toDomain(orderEntity));
     }
 }

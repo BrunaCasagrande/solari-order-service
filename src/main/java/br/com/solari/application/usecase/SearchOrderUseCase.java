@@ -6,13 +6,15 @@ import br.com.solari.infrastructure.event.OrderEvent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 @Component
 @RequiredArgsConstructor
 public class SearchOrderUseCase {
 
     private final OrderGateway orderGateway;
 
-    public Order getOrder(String id) {
+    public Optional<Order> getOrder(String id) {
         return orderGateway.getOrder(id);
     }
 }
