@@ -8,4 +8,4 @@ import java.util.Map;
 public record OrderPresenterResponse(String id,
                                      String status,
                                      Map<Integer, Integer> products,
-                                     Integer clientId) {}
+                                     String cpf) {}

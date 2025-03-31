@@ -29,8 +29,8 @@ public class OrderEntity {
 	@Column(name = "quantity")
 	private Map<Integer, Integer> products;
 
-	@Column(name = "client_id", nullable = false)
-	private Integer clientId;
+	@Column(name = "cpf", nullable = false)
+	private String cpf;
 
 	@Column(name = "payment_type", nullable = false)
 	private String paymentType;

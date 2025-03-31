@@ -26,7 +26,7 @@ public class OrderEvent {
 
   private String id;
   private Map<Integer, Integer> products;
-  private Integer clientId;
+  private String cpf;
   private PaymentData paymentData;
 
 }

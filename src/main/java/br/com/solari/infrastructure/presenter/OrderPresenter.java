@@ -11,7 +11,7 @@ public class OrderPresenter {
                 .id(order.getId())
                 .status(order.getOrderStatus().toString())
                 .products(order.getProducts())
-                .clientId(order.getClientId())
+                .cpf(order.getCpf())
         .build();
     }
 }

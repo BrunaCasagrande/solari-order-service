@@ -31,8 +31,8 @@ public class Order {
     @NotNull(message = "products is required")
     private Map<Integer, Integer> products;
 
-    @NotNull(message = "clientId is required")
-    private Integer clientId;
+    @NotNull(message = "cpf is required")
+    private String cpf;
 
     @NotNull(message = "paymentData is required")
     private String paymentType;
@@ -43,7 +43,7 @@ public class Order {
     public static Order createOrder(
             final String id,
             final Map<Integer, Integer> products,
-            final Integer clientId,
+            final String cpf,
             final String paymentType,
             final String paymentIdentification
             ) {
@@ -53,7 +53,7 @@ public class Order {
                         .id(id)
                         .orderStatus(Orderstatus.ABERTO)
                         .products(products)
-                        .clientId(clientId)
+                        .cpf(cpf)
                         .paymentType(paymentType)
                         .paymentIdentification(paymentIdentification)
                         .build();

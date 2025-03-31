@@ -12,7 +12,7 @@ public class OrderMapper {
                 .id(order.getId())
                 .orderStatus(order.getOrderStatus())
                 .products(order.getProducts())
-                .clientId(order.getClientId())
+                .cpf(order.getCpf())
                 .paymentType(order.getPaymentType())
                 .paymentIdentification(order.getPaymentIdentification())
                 .createdDate(LocalDateTime.now())
@@ -25,7 +25,7 @@ public class OrderMapper {
                 .id(orderEntity.getId())
                 .orderStatus(orderEntity.getOrderStatus())
                 .products(orderEntity.getProducts())
-                .clientId(orderEntity.getClientId())
+                .cpf(orderEntity.getCpf())
                 .paymentType(orderEntity.getPaymentType())
                 .paymentIdentification(orderEntity.getPaymentIdentification())
                 .build();
