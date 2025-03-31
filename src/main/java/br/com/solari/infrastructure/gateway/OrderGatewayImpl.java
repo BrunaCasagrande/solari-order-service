@@ -1,6 +1,7 @@
 package br.com.solari.infrastructure.gateway;
 
 import br.com.solari.application.domain.Order;
+import br.com.solari.application.domain.exception.OrderNotFoundException;
 import br.com.solari.application.gateway.OrderGateway;
 import br.com.solari.infrastructure.event.OrderEvent;
 import br.com.solari.infrastructure.mapper.OrderMapper;
@@ -36,7 +37,7 @@ public class OrderGatewayImpl implements OrderGateway {
 
     public Optional<Order> getOrder(String id) {
         OrderEntity orderEntity = orderRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Order not found"));
+                .orElseThrow(() -> new OrderNotFoundException(id));
         return Optional.of(OrderMapper.toDomain(orderEntity));
     }
 }
