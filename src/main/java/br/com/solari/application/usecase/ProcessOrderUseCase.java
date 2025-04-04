@@ -22,9 +22,10 @@ public class ProcessOrderUseCase {
 
         try {
             Optional<ClientDTO> client = orderGateway.getClientFromClientService(orderEvent.getCpf());
-            log.info("###Cliente obtido: {}=", client.toString());
+            log.info("### Cliente obtido: {}=", client.toString());
         } catch (Exception e) {
             log.error("Exceção capturada em processOrder: {}", e.getMessage(), e);
+            log.info("### Marcando pedido para reprocessamento:  {}", orderEvent.getId());
             orderGateway.updateOrder(orderEvent, Orderstatus.ERRO);
         }
 
