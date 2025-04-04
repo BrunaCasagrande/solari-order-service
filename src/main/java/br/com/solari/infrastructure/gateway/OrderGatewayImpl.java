@@ -1,6 +1,7 @@
 package br.com.solari.infrastructure.gateway;
 
 import br.com.solari.application.domain.Order;
+import br.com.solari.application.domain.Orderstatus;
 import br.com.solari.application.domain.exception.OrderNotFoundException;
 import br.com.solari.application.gateway.OrderGateway;
 import br.com.solari.infrastructure.event.OrderEvent;
@@ -35,6 +36,22 @@ public class OrderGatewayImpl implements OrderGateway {
                 orderEvent.getPaymentData().getCreditCardNumber());
 
         OrderEntity orderEntity = OrderMapper.toEntity(order);
+        orderRepository.save(orderEntity);
+
+    }
+
+    public void updateOrder(OrderEvent orderEvent, Orderstatus status) {
+
+        Order order = Order.createOrder(
+                orderEvent.getId(),
+                orderEvent.getProducts(),
+                orderEvent.getCpf(),
+                String.valueOf(orderEvent.getPaymentData().getPaymentMethod()),
+                orderEvent.getPaymentData().getCreditCardNumber());
+
+        OrderEntity orderEntity = OrderMapper.toEntity(order);
+        orderEntity.setOrderStatus(status);
+
         orderRepository.save(orderEntity);
 
     }
