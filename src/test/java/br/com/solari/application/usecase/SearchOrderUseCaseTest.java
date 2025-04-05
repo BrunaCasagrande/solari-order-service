@@ -1,0 +1,65 @@
+package br.com.solari.application.usecase;
+
+import br.com.solari.application.domain.exception.OrderNotFoundException;
+import br.com.solari.application.gateway.OrderGateway;
+import br.com.solari.fixture.OrderFixture;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.Optional;
+
+import static br.com.solari.fixture.OrderFixture.ID;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.Mockito.*;
+
+
+@ExtendWith(MockitoExtension.class)
+public class SearchOrderUseCaseTest {
+
+    private final OrderGateway orderGateway = mock(OrderGateway.class);
+
+    private final SearchOrderUseCase searchOrderUseCase = new SearchOrderUseCase(orderGateway);
+
+    @Test
+    void shouldFindOrderSuccessfullyById() {
+
+        final var order = OrderFixture.existingOrder();
+        when(orderGateway.getOrder(order.getId())).thenReturn(Optional.of(order));
+
+        final var result = searchOrderUseCase.getOrder(order.getId());
+
+        assertThat(result).isPresent();
+        assertThat(result).hasValue(order);
+
+        verify(orderGateway).getOrder(order.getId());
+    }
+
+    @Test
+    void shouldThrowExceptionWhenOrderEmpty() {
+
+        when(orderGateway.getOrder(ID)).thenReturn(Optional.empty());
+
+        final var response = searchOrderUseCase.getOrder(ID);
+
+        assertThat(response).isEmpty();
+
+        verify(orderGateway).getOrder(ID);
+    }
+
+    @Test
+    void shouldThrowExceptionWhenOrderNotFoundById() {
+
+        when(orderGateway.getOrder(ID)).thenThrow(new OrderNotFoundException(ID + " not found"));
+
+        assertThatThrownBy(() -> searchOrderUseCase.getOrder(ID))
+                .isInstanceOf(OrderNotFoundException.class)
+                .hasMessage("Order with ID=["+ID+" not found] not found.");
+
+        verify(orderGateway, times(1)).getOrder(ID);
+
+    }
+
+
+}

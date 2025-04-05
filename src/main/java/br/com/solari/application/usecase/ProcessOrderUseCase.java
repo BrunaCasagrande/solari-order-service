@@ -22,7 +22,6 @@ public class ProcessOrderUseCase {
 
     public void processOrder(OrderEvent orderEvent) {
         orderGateway.saveOrder(orderEvent);
-
         try {
             Optional<ClientDTO> client = orchestrationGateway.getClientFromClientService(orderEvent.getCpf());
             log.info("Cliente obtido -> cpf: {}", client.get().getCpf());
@@ -31,6 +30,5 @@ public class ProcessOrderUseCase {
             log.info("Marcando pedido para reprocessamento:  {}", orderEvent.getId());
             orderGateway.updateOrder(orderEvent, Orderstatus.ERRO);
         }
-
     }
 }

@@ -53,7 +53,7 @@ public class OrderGatewayImpl implements OrderGateway {
     public Optional<Order> getOrder(String id) {
 
         OrderEntity orderEntity = orderRepository.findById(id)
-                .orElseThrow(() -> new OrderNotFoundException(id));
+                .orElseThrow(() -> new OrderNotFoundException(id + " not found"));
         return Optional.of(OrderMapper.toDomain(orderEntity));
 
     }
