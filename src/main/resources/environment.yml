@@ -1,0 +1,7 @@
+DATASOURCE_URL=jdbc:mysql://localhost:3310/solari_order_db
+DATASOURCE_USER=user
+DATASOURCE_PASS=senha
+KAFKA_BASE_SERVER=localhost:29092
+KAFKA_GROUP=my-group
+KAFKA_TOPIC=novo-pedido-queue
+URL_CLIENT=http://localhost:8080/solari/v1/clients/

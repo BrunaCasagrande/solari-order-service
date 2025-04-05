@@ -25,7 +25,7 @@ public class ProcessOrderUseCase {
 
         try {
             Optional<ClientDTO> client = orchestrationGateway.getClientFromClientService(orderEvent.getCpf());
-            log.info("Cliente obtido, cpf: {}=", client.get().getCpf());
+            log.info("Cliente obtido -> cpf: {}", client.get().getCpf());
         } catch (Exception e) {
             log.error("Exceção capturada em processOrder: {}", e.getMessage(), e);
             log.info("Marcando pedido para reprocessamento:  {}", orderEvent.getId());
