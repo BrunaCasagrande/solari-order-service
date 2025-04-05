@@ -1,6 +1,7 @@
 package br.com.solari.application.usecase;
 
 import br.com.solari.application.domain.Orderstatus;
+import br.com.solari.application.gateway.OrchestrationGateway;
 import br.com.solari.application.gateway.OrderGateway;
 import br.com.solari.infrastructure.event.OrderEvent;
 import br.com.solari.infrastructure.presenter.dto.ClientDTO;
@@ -17,11 +18,13 @@ public class ProcessOrderUseCase {
 
     private final OrderGateway orderGateway;
 
+    private final OrchestrationGateway orchestrationGateway;
+
     public void processOrder(OrderEvent orderEvent) {
         orderGateway.saveOrder(orderEvent);
 
         try {
-            Optional<ClientDTO> client = orderGateway.getClientFromClientService(orderEvent.getCpf());
+            Optional<ClientDTO> client = orchestrationGateway.getClientFromClientService(orderEvent.getCpf());
             log.info("Cliente obtido, cpf: {}=", client.get().getCpf());
         } catch (Exception e) {
             log.error("Exceção capturada em processOrder: {}", e.getMessage(), e);

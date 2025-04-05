@@ -1,6 +1,5 @@
 package br.com.solari.infrastructure.controller;
 
-import br.com.solari.application.domain.Order;
 import br.com.solari.application.usecase.SearchOrderUseCase;
 import br.com.solari.infrastructure.presenter.OrderPresenter;
 import br.com.solari.infrastructure.presenter.response.OrderPresenterResponse;
@@ -23,6 +22,7 @@ public class OrderController {
 
     @GetMapping("/{id}")
     public ResponseEntity<OrderPresenterResponse> getOrder(@PathVariable(name = "id") String id) {
+        log.info("Obtendo dados do pedido id: {}", id);
         return this.searchOrderUseCase
                 .getOrder(id)
                 .map(order -> ResponseEntity.ok(orderPresenter.parseToResponse(order)))

@@ -1,14 +1,12 @@
 package br.com.solari.infrastructure.rest;
 
 import br.com.solari.infrastructure.presenter.dto.ClientDTO;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.retry.annotation.Retry;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
-import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
-import io.github.resilience4j.retry.annotation.Retry;
-
-import java.net.ConnectException;
 @Slf4j
 @Component
 public class ExternalServiceClient {
