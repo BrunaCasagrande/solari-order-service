@@ -1,11 +1,13 @@
 package br.com.solari.application.domain;
 
-import br.com.solari.infrastructure.config.exception.GatewayException;
+import br.com.solari.application.domain.exception.DomainException;
+import br.com.solari.application.domain.exception.ErrorDetail;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
@@ -22,7 +24,7 @@ import java.util.Set;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Order {
 
-    @NotNull(message = "id is required")
+    @NotBlank(message = "id is required")
     private String id;
 
     @NotNull(message = "orderStatus is required")
@@ -31,13 +33,13 @@ public class Order {
     @NotNull(message = "products is required")
     private Map<Integer, Integer> products;
 
-    @NotNull(message = "cpf is required")
+    @NotBlank(message = "cpf is required")
     private String cpf;
 
-    @NotNull(message = "paymentData is required")
+    @NotBlank(message = "paymentData is required")
     private String paymentType;
 
-    @NotNull(message = "paymentIdentification is required")
+    @NotBlank(message = "paymentIdentification is required")
     private String paymentIdentification;
 
     public static Order createOrder(
@@ -69,11 +71,11 @@ public class Order {
         final Set<ConstraintViolation<Order>> violations = validator.validate(order);
 
         if (!violations.isEmpty()) {
-            final List<GatewayException.ErrorDetail> errors =
+            final List<ErrorDetail> errors =
                     violations.stream()
                             .map(
                                     violation ->
-                                            new GatewayException.ErrorDetail(
+                                            new ErrorDetail(
                                                     violation.getPropertyPath().toString(),
                                                     violation.getMessage(),
                                                     violation.getInvalidValue()))
@@ -81,7 +83,7 @@ public class Order {
 
             final String firstErrorMessage = errors.get(0).errorMessage();
 
-            throw new GatewayException.DomainException(firstErrorMessage, "domain_exception", errors);
+            throw new DomainException(firstErrorMessage, "domain_exception", errors);
         }
     }
 }
