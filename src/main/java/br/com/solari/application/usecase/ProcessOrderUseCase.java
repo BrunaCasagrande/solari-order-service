@@ -23,8 +23,16 @@ public class ProcessOrderUseCase {
     public void processOrder(OrderEvent orderEvent) {
         orderGateway.saveOrder(orderEvent);
         try {
+            //Realiza o começo da orquestracao chamando o servico de cliente
             Optional<ClientDTO> client = orchestrationGateway.getClientFromClientService(orderEvent.getCpf());
             log.info("Cliente obtido -> cpf: {}", client.get().getCpf());
+            // Precisa implementar a chamada do produto (get solari-inventory-service)
+
+            //Precisa implementar a chamada do estoque (get solari-inventory-service)
+
+            //Precisa atualizar o estoque (update solari-inventory-service)
+
+            //Precisa chamar o pagamento (post solari-payment-service)
         } catch (Exception e) {
             log.error("Exceção capturada em processOrder: {}", e.getMessage(), e);
             log.info("Marcando pedido para reprocessamento:  {}", orderEvent.getId());
