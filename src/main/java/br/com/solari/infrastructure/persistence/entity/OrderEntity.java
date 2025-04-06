@@ -27,7 +27,7 @@ public class OrderEntity {
 	@CollectionTable(name = "order_products", joinColumns = @JoinColumn(name = "order_id"))
 	@MapKeyColumn(name = "product_id")
 	@Column(name = "quantity")
-	private Map<Integer, Integer> products;
+	private Map<String, Integer> products;
 
 	@Column(name = "cpf", nullable = false)
 	private String cpf;

@@ -25,7 +25,7 @@ public class SearchOrderUseCaseTest {
     @Test
     void shouldFindOrderSuccessfullyById() {
 
-        final var order = OrderFixture.existingOrder();
+        final var order = OrderFixture.createOrderExemple();
         when(orderGateway.getOrder(order.getId())).thenReturn(Optional.of(order));
 
         final var result = searchOrderUseCase.getOrder(order.getId());

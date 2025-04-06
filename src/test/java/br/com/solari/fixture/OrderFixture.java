@@ -1,11 +1,13 @@
 package br.com.solari.fixture;
 
 import br.com.solari.application.domain.Order;
+import br.com.solari.application.domain.Orderstatus;
 import br.com.solari.infrastructure.event.OrderEvent;
 import br.com.solari.infrastructure.event.PaymentData;
 import br.com.solari.infrastructure.event.PaymentMethod;
 import br.com.solari.infrastructure.presenter.dto.AddressDTO;
 import br.com.solari.infrastructure.presenter.dto.ClientDTO;
+import br.com.solari.infrastructure.presenter.response.OrderPresenterResponse;
 
 import java.util.Map;
 
@@ -14,14 +16,14 @@ public final class OrderFixture {
     public static final String ID = "3b035f13-80d0-4af0-9f27-5314f8ad8a8d";
     public static final String CPF = "12345678900";
     public static final PaymentData PAYMENT_DATA = new PaymentData(PaymentMethod.CREDIT_CARD, "123456789");
-    public static final Map<Integer, Integer> PRODUCTS = Map.of(
-            1, 2,
-            2, 3
+    public static final Map<String, Integer> PRODUCTS = Map.of(
+            "1", 2,
+            "2", 3
     );
 
     private OrderFixture() {}
 
-    public static Order existingOrder() {
+    public static Order createOrderExemple() {
         return Order.createOrder(
                 ID,
                 PRODUCTS,
@@ -31,7 +33,7 @@ public final class OrderFixture {
         );
     }
 
-    public static OrderEvent existingOrderEvent() {
+    public static OrderEvent createOrderEventExemple() {
         return new OrderEvent(
                 ID,
                 PRODUCTS,
@@ -39,7 +41,7 @@ public final class OrderFixture {
                 PAYMENT_DATA
         );
     }
-    public static ClientDTO existingClientDTO() {
+    public static ClientDTO createClientDTOExemple() {
         AddressDTO AddressDTO = new AddressDTO(1,
                 "rua teste",
                 "1",
@@ -55,5 +57,14 @@ public final class OrderFixture {
                 "teste@gmail.com",
                 AddressDTO
         );
+    }
+
+    public static OrderPresenterResponse createOrderPresenterResponseExemple(){
+        return OrderPresenterResponse.builder()
+                .id(ID)
+                .status(Orderstatus.ABERTO.toString())
+                .products(PRODUCTS)
+                .cpf(CPF)
+                .build();
     }
 }

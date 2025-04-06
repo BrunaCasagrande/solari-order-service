@@ -31,7 +31,7 @@ public class Order {
     private Orderstatus orderStatus;
 
     @NotNull(message = "products is required")
-    private Map<Integer, Integer> products;
+    private Map<String, Integer> products;
 
     @NotBlank(message = "cpf is required")
     private String cpf;
@@ -44,7 +44,7 @@ public class Order {
 
     public static Order createOrder(
             final String id,
-            final Map<Integer, Integer> products,
+            final Map<String, Integer> products,
             final String cpf,
             final String paymentType,
             final String paymentIdentification

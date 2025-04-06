@@ -26,8 +26,8 @@ public class ProcessOrderUseCaseTest {
 
     @Test
     void shouldProcessOrderSuccessfully() {
-        final OrderEvent orderEvent = OrderFixture.existingOrderEvent();
-        final ClientDTO clientDTO = OrderFixture.existingClientDTO();
+        final OrderEvent orderEvent = OrderFixture.createOrderEventExemple();
+        final ClientDTO clientDTO = OrderFixture.createClientDTOExemple();
 
         doNothing().when(orderGateway).saveOrder(orderEvent);
         when(orchestrationGateway.getClientFromClientService(orderEvent.getCpf()))
@@ -42,7 +42,7 @@ public class ProcessOrderUseCaseTest {
     }
     @Test
     void shouldMarkOrderForReprocessingWhenExceptionOccurs() {
-        final OrderEvent orderEvent = OrderFixture.existingOrderEvent();
+        final OrderEvent orderEvent = OrderFixture.createOrderEventExemple();
         doNothing().when(orderGateway).saveOrder(orderEvent);
 
         when(orchestrationGateway.getClientFromClientService(orderEvent.getCpf()))

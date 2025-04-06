@@ -25,7 +25,7 @@ import java.util.UUID;
 public class OrderEvent {
 
   private String id;
-  private Map<Integer, Integer> products;
+  private Map<String, Integer> products;
   private String cpf;
   private PaymentData paymentData;
 
