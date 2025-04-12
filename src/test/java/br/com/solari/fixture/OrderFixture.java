@@ -6,8 +6,8 @@ import br.com.solari.infrastructure.event.OrderEvent;
 import br.com.solari.infrastructure.event.PaymentData;
 import br.com.solari.infrastructure.event.PaymentMethod;
 import br.com.solari.infrastructure.persistence.entity.OrderEntity;
-import br.com.solari.infrastructure.presenter.dto.AddressDTO;
-import br.com.solari.infrastructure.presenter.dto.ClientDTO;
+import br.com.solari.application.dto.AddressDTO;
+import br.com.solari.application.dto.ClientDTO;
 import br.com.solari.infrastructure.presenter.response.OrderPresenterResponse;
 
 import java.time.LocalDateTime;

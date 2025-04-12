@@ -16,11 +16,11 @@ import static org.mockito.Mockito.*;
 
 
 @ExtendWith(MockitoExtension.class)
-public class SearchOrderUseCaseTest {
+public class SearchOrderTest {
 
     private final OrderGateway orderGateway = mock(OrderGateway.class);
 
-    private final SearchOrderUseCase searchOrderUseCase = new SearchOrderUseCase(orderGateway);
+    private final SearchOrder searchOrder = new SearchOrder(orderGateway);
 
     @Test
     void shouldFindOrderSuccessfullyById() {
@@ -28,7 +28,7 @@ public class SearchOrderUseCaseTest {
         final var order = OrderFixture.createOrderExemple();
         when(orderGateway.getOrder(order.getId())).thenReturn(Optional.of(order));
 
-        final var result = searchOrderUseCase.getOrder(order.getId());
+        final var result = searchOrder.getOrder(order.getId());
 
         assertThat(result).isPresent();
         assertThat(result).hasValue(order);
@@ -41,7 +41,7 @@ public class SearchOrderUseCaseTest {
 
         when(orderGateway.getOrder(ID)).thenReturn(Optional.empty());
 
-        final var response = searchOrderUseCase.getOrder(ID);
+        final var response = searchOrder.getOrder(ID);
 
         assertThat(response).isEmpty();
 
@@ -53,7 +53,7 @@ public class SearchOrderUseCaseTest {
 
         when(orderGateway.getOrder(ID)).thenThrow(new OrderNotFoundException(ID + " not found"));
 
-        assertThatThrownBy(() -> searchOrderUseCase.getOrder(ID))
+        assertThatThrownBy(() -> searchOrder.getOrder(ID))
                 .isInstanceOf(OrderNotFoundException.class)
                 .hasMessage("Order with ID=["+ID+" not found] not found.");
 

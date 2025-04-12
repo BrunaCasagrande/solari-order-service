@@ -1,7 +1,7 @@
 package br.com.solari.infrastructure.controller;
 
 import br.com.solari.application.domain.exception.OrderNotFoundException;
-import br.com.solari.application.usecase.SearchOrderUseCase;
+import br.com.solari.application.usecase.SearchOrder;
 import br.com.solari.fixture.OrderFixture;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +30,7 @@ public class OrderControllerTest {
     @Autowired
     private MockMvc mockMvc;
     @MockBean
-    private SearchOrderUseCase searchOrder;
+    private SearchOrder searchOrder;
     private String BASE_URL = "/solari/v1/order/";
 
     @Test

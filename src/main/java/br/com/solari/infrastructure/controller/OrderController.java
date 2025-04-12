@@ -1,6 +1,6 @@
 package br.com.solari.infrastructure.controller;
 
-import br.com.solari.application.usecase.SearchOrderUseCase;
+import br.com.solari.application.usecase.SearchOrder;
 import br.com.solari.infrastructure.presenter.OrderPresenter;
 import br.com.solari.infrastructure.presenter.response.OrderPresenterResponse;
 import lombok.RequiredArgsConstructor;
@@ -17,13 +17,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class OrderController {
 
-    private final SearchOrderUseCase searchOrderUseCase;
+    private final SearchOrder searchOrder;
     private final OrderPresenter orderPresenter;
 
     @GetMapping("/{id}")
     public ResponseEntity<OrderPresenterResponse> getOrder(@PathVariable(name = "id") String id) {
         log.info("Obtendo dados do pedido id: {}", id);
-        return this.searchOrderUseCase
+        return this.searchOrder
                 .getOrder(id)
                 .map(order -> ResponseEntity.ok(orderPresenter.parseToResponse(order)))
                 .orElseGet(() -> ResponseEntity.notFound().build());

@@ -1,4 +1,4 @@
-package br.com.solari.infrastructure.presenter.dto;
+package br.com.solari.application.dto;
 
 import lombok.*;
 
