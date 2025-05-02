@@ -1,5 +1,6 @@
 package br.com.solari.infrastructure.rest;
 
+import br.com.solari.application.dto.InventoryDTO;
 import br.com.solari.application.dto.ProductDTO;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.retry.annotation.Retry;
@@ -33,4 +34,5 @@ public class ExternalServiceProduct {
         log.info("Class Name Fallback Error: {}",  throwable.getClass().getName());
         throw new RuntimeException("Erro no fallback para SKU " + sku, throwable);
     }
+
 }
