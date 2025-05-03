@@ -34,4 +34,9 @@ public class OrchestrationGatewayImpl implements OrchestrationGateway {
         List<InventoryDTO> inventoryList = externalServiceInventory.getInventory(sku);
         return inventoryList.isEmpty() ? Optional.empty() : Optional.of(inventoryList);
     }
+
+    @Override
+    public void updateInventoryInInventoryService(String sku, InventoryDTO inventoryDTO) {
+        externalServiceInventory.updateInventory(sku, inventoryDTO);
+    }
 }

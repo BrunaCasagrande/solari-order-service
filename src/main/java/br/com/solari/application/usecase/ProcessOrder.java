@@ -55,13 +55,27 @@ public class ProcessOrder {
                 log.warn("Estoque não encontrado para o SKU: {}", product.get().getSku());
                 throw new IllegalStateException("Estoque não encontrado");
             }
-            //Precisa atualizar o estoque (update solari-inventory-service)
+            String sku = product.get().getSku();
+            Integer quantity = orderEvent.getProducts().get(sku);
+
+            if (quantity == null) {
+                log.error("Quantidade não encontrada para o SKU: {}", sku);
+                throw new IllegalStateException("Quantidade não encontrada para o SKU: " + sku);
+            }
+
+            // Atualizar o estoque
+            InventoryDTO updatedInventory = new InventoryDTO();
+            updatedInventory.setSku(sku);
+            updatedInventory.setQuantity(quantity);
+
+            orchestrationGateway.updateInventoryInInventoryService(sku, updatedInventory);
+            log.info("Estoque atualizado para o SKU: {}", sku);
 
             //Precisa chamar o pagamento (post solari-payment-service)
-        } catch (Exception e) {
-            log.error("Exceção capturada em processOrder: {}", e.getMessage(), e);
-            log.info("Marcando pedido para reprocessamento:  {}", orderEvent.getId());
-            orderGateway.updateOrder(orderEvent, Orderstatus.ERRO);
-        }
+            } catch (Exception e) {
+                log.error("Exceção capturada em processOrder: {}", e.getMessage(), e);
+                log.info("Marcando pedido para reprocessamento:  {}", orderEvent.getId());
+                orderGateway.updateOrder(orderEvent, Orderstatus.ERRO);
+            }
     }
 }

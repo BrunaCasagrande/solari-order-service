@@ -11,4 +11,5 @@ public interface OrchestrationGateway {
     Optional<ClientDTO> getClientFromClientService(String cpf);
     Optional<ProductDTO> getProductFromProductService(String sku);
     Optional<List<InventoryDTO>> getInventoryFromInventoryService(String sku);
+    void updateInventoryInInventoryService(String sku, InventoryDTO inventoryDTO);
 }

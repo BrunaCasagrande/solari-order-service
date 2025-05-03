@@ -37,4 +37,8 @@ public class ExternalServiceInventory {
         throw new RuntimeException("Erro no fallback para SKU: " + sku, throwable);
     }
 
+    public void updateInventory(String sku, InventoryDTO inventoryDTO) {
+        String url = basePath + "/sku/" + sku;
+        restTemplate.put(url, inventoryDTO);
+    }
 }
