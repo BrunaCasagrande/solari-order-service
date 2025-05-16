@@ -10,15 +10,15 @@ import lombok.*;
 @ToString
 public class ClientDTO {
 
-    private Integer id;
+  private Integer id;
 
-    private String name;
+  private String name;
 
-    private String cpf;
+  private String cpf;
 
-    private String phoneNumber;
+  private String phoneNumber;
 
-    private String email;
+  private String email;
 
-    private AddressDTO address;
+  private AddressDTO address;
 }

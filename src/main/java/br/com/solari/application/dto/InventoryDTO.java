@@ -10,9 +10,9 @@ import lombok.*;
 @ToString
 public class InventoryDTO {
 
-    private Integer id;
+  private Integer id;
 
-    private String sku;
+  private String sku;
 
-    private Integer quantity;
+  private Integer quantity;
 }

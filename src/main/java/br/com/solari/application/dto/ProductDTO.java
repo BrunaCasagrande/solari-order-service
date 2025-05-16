@@ -1,8 +1,7 @@
 package br.com.solari.application.dto;
 
-import lombok.*;
-
 import java.math.BigDecimal;
+import lombok.*;
 
 @Getter
 @Setter
@@ -12,13 +11,13 @@ import java.math.BigDecimal;
 @ToString
 public class ProductDTO {
 
-    private Integer id;
+  private Integer id;
 
-    private String name;
+  private String name;
 
-    private String description;
+  private String description;
 
-    private String sku;
+  private String sku;
 
-    private BigDecimal price;
+  private BigDecimal price;
 }

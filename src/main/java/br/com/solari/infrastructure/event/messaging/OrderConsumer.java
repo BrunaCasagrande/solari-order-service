@@ -17,13 +17,15 @@ public class OrderConsumer {
   private final ProcessOrder processOrder;
   private final ObjectMapper objectMapper = new ObjectMapper();
 
-  @KafkaListener(topics = "${spring.kafka.consumer.topic}", groupId = "${spring.kafka.consumer.group-id}")
+  @KafkaListener(
+      topics = "${spring.kafka.consumer.topic}",
+      groupId = "${spring.kafka.consumer.group-id}")
   public void consumirPedido(ConsumerRecord<String, String> record) {
     try {
       String json = record.value();
       OrderEvent orderEvent = objectMapper.readValue(json, OrderEvent.class);
       log.info("Mensagem recebida do Kafka: {}", json);
-      log.info("Mensagem recebida e mapeada: {}",orderEvent.toString());
+      log.info("Mensagem recebida e mapeada: {}", orderEvent.toString());
 
       processOrder.processOrder(orderEvent);
     } catch (Exception e) {

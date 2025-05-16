@@ -17,16 +17,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class OrderController {
 
-    private final SearchOrder searchOrder;
-    private final OrderPresenter orderPresenter;
+  private final SearchOrder searchOrder;
+  private final OrderPresenter orderPresenter;
 
-    @GetMapping("/{id}")
-    public ResponseEntity<OrderPresenterResponse> getOrder(@PathVariable(name = "id") String id) {
-        log.info("Obtendo dados do pedido id: {}", id);
-        return this.searchOrder
-                .getOrder(id)
-                .map(order -> ResponseEntity.ok(orderPresenter.parseToResponse(order)))
-                .orElseGet(() -> ResponseEntity.notFound().build());
-    }
-
+  @GetMapping("/{id}")
+  public ResponseEntity<OrderPresenterResponse> getOrder(@PathVariable(name = "id") String id) {
+    log.info("Obtendo dados do pedido id: {}", id);
+    return this.searchOrder
+        .getOrder(id)
+        .map(order -> ResponseEntity.ok(orderPresenter.parseToResponse(order)))
+        .orElseGet(() -> ResponseEntity.notFound().build());
+  }
 }

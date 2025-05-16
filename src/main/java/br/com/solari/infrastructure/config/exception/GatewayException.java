@@ -1,9 +1,5 @@
 package br.com.solari.infrastructure.config.exception;
 
-import lombok.Getter;
-
-import java.util.List;
-
 public class GatewayException extends RuntimeException {
   private static final String DEFAULT_CODE = "gateway_exception";
   private final String code;
@@ -12,5 +8,4 @@ public class GatewayException extends RuntimeException {
     super(message);
     this.code = DEFAULT_CODE;
   }
-
- }
+}

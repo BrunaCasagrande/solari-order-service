@@ -1,7 +1,6 @@
 package br.com.solari.infrastructure.event;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 @Getter
@@ -12,7 +11,6 @@ import lombok.*;
 @ToString
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class PaymentData {
-    private PaymentMethod paymentMethod;
-    private String creditCardNumber;
+  private PaymentMethod paymentMethod;
+  private String creditCardNumber;
 }
-
