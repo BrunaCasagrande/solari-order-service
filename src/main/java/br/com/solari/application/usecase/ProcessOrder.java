@@ -88,9 +88,12 @@ public class ProcessOrder {
       PaymentResponseDto paymentResponse = orchestrationGateway.processPayment(paymentToken);
       log.info("Pagamento processado. Status: {}", paymentResponse.getStatus());
       orderGateway.updateOrder(orderEvent, Orderstatus.FECHADO_COM_SUCESSO);
-      if (!"APPROVED".equalsIgnoreCase(paymentResponse.getStatus())) {
+      if ("APPROVED".equalsIgnoreCase(paymentResponse.getStatus())) {
+        orderGateway.updateOrder(orderEvent, Orderstatus.FECHADO_COM_SUCESSO);
+      } else {
         orderGateway.updateOrder(orderEvent, Orderstatus.FECHADO_SEM_CREDITO);
       }
+
 
     } catch (Exception e) {
       log.error("Exceção capturada em processOrder: {}", e.getMessage(), e);
