@@ -1,18 +1,18 @@
 package br.com.solari.application.domain;
 
-import br.com.solari.infrastructure.config.exception.GatewayException;
+import br.com.solari.application.domain.exception.DomainException;
+import br.com.solari.application.domain.exception.ErrorDetail;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.*;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.UUID;
+import lombok.*;
 
 @Getter
 @Setter
@@ -23,29 +23,40 @@ import java.util.UUID;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Order {
 
+  @NotBlank(message = "id is required")
   private String id;
 
+  @NotNull(message = "orderStatus is required")
+  private Orderstatus orderStatus;
+
   @NotNull(message = "products is required")
-  private Map<Integer, Integer> products;
+  private Map<String, Integer> products;
 
-  @NotNull(message = "clientId is required")
-  private Integer clientId;
+  @NotBlank(message = "cpf is required")
+  private String cpf;
 
-  @NotNull(message = "paymentData is required")
-  private PaymentData paymentData;
+  @NotBlank(message = "paymentData is required")
+  private String paymentType;
+
+  @NotBlank(message = "paymentIdentification is required")
+  private String paymentIdentification;
 
   public static Order createOrder(
-          final Map<Integer, Integer> products,
-          final Integer clientId,
-          final PaymentData paymentData) {
+      final String id,
+      final Map<String, Integer> products,
+      final String cpf,
+      final String paymentType,
+      final String paymentIdentification) {
 
     final var order =
-            Order.builder()
-                    .id(UUID.randomUUID().toString())
-                    .products(products)
-                    .clientId(clientId)
-                    .paymentData(paymentData)
-                    .build();
+        Order.builder()
+            .id(id)
+            .orderStatus(Orderstatus.ABERTO)
+            .products(products)
+            .cpf(cpf)
+            .paymentType(paymentType)
+            .paymentIdentification(paymentIdentification)
+            .build();
 
     validate(order);
 
@@ -58,19 +69,19 @@ public class Order {
     final Set<ConstraintViolation<Order>> violations = validator.validate(order);
 
     if (!violations.isEmpty()) {
-      final List<GatewayException.ErrorDetail> errors =
-              violations.stream()
-                      .map(
-                              violation ->
-                                      new GatewayException.ErrorDetail(
-                                              violation.getPropertyPath().toString(),
-                                              violation.getMessage(),
-                                              violation.getInvalidValue()))
-                      .toList();
+      final List<ErrorDetail> errors =
+          violations.stream()
+              .map(
+                  violation ->
+                      new ErrorDetail(
+                          violation.getPropertyPath().toString(),
+                          violation.getMessage(),
+                          violation.getInvalidValue()))
+              .toList();
 
       final String firstErrorMessage = errors.get(0).errorMessage();
 
-      throw new GatewayException.DomainException(firstErrorMessage, "domain_exception", errors);
+      throw new DomainException(firstErrorMessage, "domain_exception", errors);
     }
   }
 }

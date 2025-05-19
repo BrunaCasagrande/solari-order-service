@@ -1,71 +1,59 @@
 package br.com.solari.infrastructure.gateway;
 
+import br.com.solari.application.domain.Order;
+import br.com.solari.application.domain.Orderstatus;
+import br.com.solari.application.domain.exception.OrderNotFoundException;
+import br.com.solari.application.gateway.OrderGateway;
+import br.com.solari.infrastructure.event.OrderEvent;
+import br.com.solari.infrastructure.mapper.OrderMapper;
+import br.com.solari.infrastructure.persistence.entity.OrderEntity;
+import br.com.solari.infrastructure.persistence.repository.OrderRepository;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class OrderGatewayImpl /*implements ClientGateway*/ {
-/*
-  private final ClientRepository clientRepository;
-  private static final String FIND_ERROR_MESSAGE = "User with CPF=[%s] not found.";
+public class OrderGatewayImpl implements OrderGateway {
 
-  @Override
-  public Client save(final Client client) {
-    final var entity =
-            ClientEntity.builder()
-                    .name(client.getName())
-                    .cpf(client.getCpf())
-                    .phoneNumber(client.getPhoneNumber())
-                    .email(client.getEmail())
-                    .password(client.getPassword())
-                    .build();
+  private final OrderRepository orderRepository;
 
-    final var saved = clientRepository.save(entity);
+  public void saveOrder(OrderEvent orderEvent) {
 
-    return this.toResponse(saved);
+    Order order =
+        Order.createOrder(
+            orderEvent.getId(),
+            orderEvent.getProducts(),
+            orderEvent.getCpf(),
+            String.valueOf(orderEvent.getPaymentData().getPaymentMethod()),
+            orderEvent.getPaymentData().getCreditCardNumber());
+
+    OrderEntity orderEntity = OrderMapper.toEntity(order);
+    orderRepository.save(orderEntity);
   }
 
-  @Override
-  public Optional<Client> findByCpf(final String cpf) {
-    final var entity = clientRepository.findByCpf(cpf);
+  public void updateOrder(OrderEvent orderEvent, Orderstatus status) {
 
-    return entity.map(this::toResponse);
+    Order order =
+        Order.createOrder(
+            orderEvent.getId(),
+            orderEvent.getProducts(),
+            orderEvent.getCpf(),
+            String.valueOf(orderEvent.getPaymentData().getPaymentMethod()),
+            orderEvent.getPaymentData().getCreditCardNumber());
+
+    OrderEntity orderEntity = OrderMapper.toEntity(order);
+    orderEntity.setOrderStatus(status);
+
+    orderRepository.save(orderEntity);
   }
 
-  @Override
-  public Client update(final Client user) {
-    try {
-      final var entity =
-              clientRepository
-                      .findByCpf(user.getCpf())
-                      .orElseThrow(() -> new GatewayException(format(FIND_ERROR_MESSAGE, user.getCpf())));
+  public Optional<Order> getOrder(String id) {
 
-      entity.setName(user.getName());
-      entity.setPhoneNumber(user.getPhoneNumber());
-      entity.setEmail(user.getEmail());
-      entity.setPassword(user.getPassword());
-
-      final var updatedEntity = clientRepository.save(entity);
-
-      return this.toResponse(updatedEntity);
-    } catch (IllegalArgumentException e) {
-      throw new GatewayException(format(FIND_ERROR_MESSAGE, user.getCpf()));
-    }
+    OrderEntity orderEntity =
+        orderRepository
+            .findById(id)
+            .orElseThrow(() -> new OrderNotFoundException(id + " not found"));
+    return Optional.of(OrderMapper.toDomain(orderEntity));
   }
-
-  @Override
-  public void deleteByCpf(final String cpf) {
-    clientRepository.deleteByCpf(cpf);
-  }
-
-  private Client toResponse(final ClientEntity entity) {
-    return Client.builder()
-            .id(entity.getId())
-            .name(entity.getName())
-            .cpf(entity.getCpf())
-            .phoneNumber(entity.getPhoneNumber())
-            .email(entity.getEmail())
-            .build();
-  }*/
 }
