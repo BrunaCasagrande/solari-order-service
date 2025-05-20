@@ -165,6 +165,7 @@
 						<configuration>
 							<excludes>
 								<exclude>**/infrastructure/config/**</exclude>
+								<exclude>**/infrastructure/rest/**</exclude>
 							</excludes>
 						</configuration>
 					</execution>
